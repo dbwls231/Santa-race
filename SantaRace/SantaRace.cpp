@@ -8,12 +8,12 @@ ObjectID startButton, endButton, santa;
 ObjectID arrowUI[5], presents[20];
 
 int santaX = 0, santaY = 550;
-int presentScore=0, arrowNum=0;
+int presentScore = 0, arrowNum = 0;
 int arrow[5];
 
-TimerID presentTimer,deliveryTimer;
+TimerID presentTimer, deliveryTimer;
 
-bool isPlaying=false, presentDirect=true;
+bool isPlaying = false, presentDirect = true;
 
 //화살표 이미지 변경
 void changeArrowUi(int i, int arrow) {
@@ -37,58 +37,51 @@ void changeArrowUi(int i, int arrow) {
 
 //화살표 초기화
 void changeArrow() {
-	printf("\n");
 	for (int i = 0; i < 5; i++) {
 		arrow[i] = rand() % 4 + 1;
 		changeArrowUi(i, arrow[i]);
-		printf("%d", arrow[i]);
 	}
 }
 
 //입력한 키와 화살표가 맞는지
 bool checkArrow(KeyCode code) {
-	printf("\narrowNum:%d, num:%d, KeyCode:", arrowNum, arrow[arrowNum]);
 	switch (code)
 	{
 	case KeyCode::KEY_UP_ARROW:
-		printf("1");
 		if (arrow[arrowNum] == 1) {
 			return true;
 		}
 		break;
 	case KeyCode::KEY_RIGHT_ARROW:
-		printf("2");
 		if (arrow[arrowNum] == 2) {
 			return true;
 		}
 		break;
 	case KeyCode::KEY_DOWN_ARROW:
-		printf("3");
 		if (arrow[arrowNum] == 3) {
 			return true;
 		}
 		break;
 	case KeyCode::KEY_LEFT_ARROW:
-		printf("4");
 		if (arrow[arrowNum] == 4) {
 			return true;
 		}
 		break;
 	}
 	return false;
-	
+
 }
 
 //선물 개수 관리
 void presentMg(int num) {
 	//맞추면 하나 추가
-	if (num > 0) { 
+	if (num > 0) {
 		showObject(presents[presentScore]);
 		presentScore += num;
 		santaX += 60;
 	}
 	//틀리면 하나 마이너스
-	else { 
+	else {
 		if (presentScore > 0) {
 			presentScore += num;
 			hideObject(presents[presentScore]);
@@ -132,10 +125,9 @@ void finishGame() {
 }
 
 void keyboardCallback(KeyCode code, KeyState state) {
-	
-	if (state == KeyState::KEY_PRESSED&&isPlaying) {
+
+	if (state == KeyState::KEY_PRESSED && isPlaying) {
 		if (checkArrow(code)) {
-			printf("correct");
 			arrowNum++;
 			if (arrowNum > 4) {
 				presentMg(1);
@@ -143,7 +135,6 @@ void keyboardCallback(KeyCode code, KeyState state) {
 			}
 		}
 		else {
-			printf("false");
 			presentMg(-1);
 			changeArrow();
 		}
@@ -192,12 +183,12 @@ int main() {
 
 	for (int i = 0; i < 5; i++) {
 		arrowUI[i] = createObject("Images/right.png");
-		locateObject(arrowUI[i], scene, 460 + i * 50, 30);
+		locateObject(arrowUI[i], scene, 440 + i * 60, 30);
 	}
 
 	for (int i = 0; i < 20; i++) {
 		presents[i] = createObject("Images/present.png");
-		scaleObject(presents[i],0.1f);
+		scaleObject(presents[i], 0.1f);
 		locateObject(presents[i], scene, 0 + i * 60, 560);
 	}
 	presentTimer = createTimer(20.f);
